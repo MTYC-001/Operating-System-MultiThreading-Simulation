@@ -1,0 +1,58 @@
+A simulation of bank queue management system is implemented. Clients show up and are added to a queue and tellers serve the clients individually from the queue. In this instance, the queue is a shared resource that both the producer thread getCustomers and the consumer thread teller have to access.
+
+The code uses a mutex queue_mutex to control access to the shared resource (the queue) to ensure synchronization and prevent race conditions. When the producer and consumer threads access the queue, the mutex is locked and unlocked. The producer thread waits on the condition variable queue_not_full when the queue is full until there is room in the queue. The consumer thread waits on the condition variable queue_not_empty when the queue is empty until there are items in the queue.
+
+By calling the enqueue function, customers are added to the queue by the producer thread. The struct Customer is added to the queue by the enqueue function. If the queue is full, it waits on the condition variable queue_not_full before locking the queue_mutex. The function adds the customer to the queue if there is room, increases the number of items in the queue, and signals the condition variable queue_not_empty to wake up any teller threads that are waiting. then it releases the queue_mutex.
+
+By calling the dequeue function, customers are removed from the queue by the consumer thread. The first customer in the queue is removed and returned by the dequeue function. If the queue is empty, it waits on the condition variable queue_not_empty before locking the queue_mutex. The function wakes up the getCustomer thread that are waiting by signaling the queue_not_full condition variable and removing the first customer from the queue if there are items in it. The queue_mutex is finally unlocked or released by the function.
+
+The mutex is utilized to make sure that getCustomer and teller does not access critical section at the same time, while the condition factors are utilized to tell holding up strings when the line isn't full. The code avoids race conditions and ensures that only one thread can access the shared resource at a time by employing this strategy.
+
+In summary the program stops after the last customer has been served and the teller will start dequeuing as soon as the queue is not empty. By using mutex synchronisation we prevent race condition where both getCustomers and teller threads entering the queue (critical section) at the same time.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
